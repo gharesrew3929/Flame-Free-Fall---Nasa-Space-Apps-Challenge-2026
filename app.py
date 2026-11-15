@@ -167,6 +167,26 @@ with tab2:
       st.warning("MODERATE RISK: Active ventilation sustains boundary-layer combustion in microgravity.")
     else:
       st.success("LOW / SUPPRESSION REGIME: Near limiting oxygen concentration {LOC) for solid fuels.")
+
+  with r2:
+    st.markdown("#### Key Engineering Takeaways for Selected Materials:")
+    if "PMMA (Acrylic Polymer)" in selected_materials:
+      st.markdown(
+        "-**PMMA (1 cm & 2 cm spheres/slabs):** Thick polymers exhibit slow thermal equilibration in microgravity; "
+        "larger diameters (2 cm) act as sustained heat sinks that require prolonged suppressant application."
+      )
+    if "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
+      st.markdown(
+        "-**SIBAL (Solid Inflammability Boundary at Low-Speed):** Thin cellulosic/fiberglass fabrics ignite rapidbly "
+        "even at low ventilation speeds  (5-15 cm/s) where buoyancy-driven airflow is absent."
+      )
+      if "Nomex Blend (Flam-Resistant)" in selected_mateirals:
+        st.markdown(
+          "-**Nomex Blends:** Used in astronaut flight suits and stowage bags; remains self-extinguishing at standard "
+          "21% O₂ but requires strict oxygen-enrichment limits."
+        )
+
+      st.markdown("#### Historical NASA Incident Cross-Reference:")
       
   
   
