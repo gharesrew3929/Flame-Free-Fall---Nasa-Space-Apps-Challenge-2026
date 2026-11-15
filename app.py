@@ -94,6 +94,30 @@ with tab1:
   with c1:
     st.subheader("Microgravity Tests by Fuel Configuration")
     mat_counts = filtered_df["Fuel Sample Material"].value_counts().reset_index()
+    mat_counts.columns = ["Fuel Sample Material", "Test Count"]
+    fig1 = px.bar(
+      mat_counts,
+      x="Test Count",
+      y="Fuel Sample Material".
+      orientation="h",
+      color="Test Count",
+      color_continuous_scale="Y1OrRd"
+    )
+    fig1.update_layout(yaxis={'categoryorder': 'total ascending'}, height=400)
+    st.plotly_chart(fig1, use_container_width=True)
+
+  with c2:
+    st.subheader("Material Class & Geometry Breakdown")
+    sunburst_df = filtered_df.groupby(["Material_Category", "Geometry"]).size().reset_index(name="Count")
+    fig2 = px.sunburst(
+      sunburst_df,
+      path=["Material_Category", "Geometry"],
+      values="Count",
+      color="Material_Category"
+    )
+    fig2.update_layout(height=400)
+    st.plotly_chart(fig2, use_container_width=True)
+
     
 
 
