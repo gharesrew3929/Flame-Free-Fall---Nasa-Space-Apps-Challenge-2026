@@ -118,6 +118,20 @@ with tab1:
     fig2.update_layout(height=400)
     st.plotly_chart(fig2, use_container_width=True)
 
+  st.subheader("ISS Experiment TImeline (Test Sequence vs. GMT Day)")
+  timeline_df = filtered_df.dropna(subset=["GMT", "As Run Test #"])
+  fig3 = px.scatter(
+    timelinw_df,
+    x="GMT",
+    y="As Run Test #",
+    color="Material_Category",
+    symbol="Geometry",
+    hover_data=["Date", "Test #", "Sample #", "Fuel Sample Material"],
+    title="BASS Experimental Campaign Progression on the International Space Station"
+  )
+  st.plotly_chart(fig3, use_container_width=True)
+
+
     
 
 
