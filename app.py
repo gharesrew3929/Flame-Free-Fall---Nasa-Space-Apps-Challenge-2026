@@ -198,7 +198,13 @@ with tab2:
           "sustain oxygen-fed fires unless ventilation fans are immediately shut down during an alarm."
         )
 
-      
+with tab3:
+  st.subheader("🔬 Scientific Methodology & NASA Data Attribution")
+  st.markdown("""
+  ### 1. Primary NASA Open Dataset
+  * **Source:** NASA Physical Sciences Informatics (PSI) Data Repository
+  * **Investigation:** **PSI-26 -- Burning and Suppression of Solids (BASS)** conducted aboard the International Space Station (ISS).
+  * **Dataset File:** 'PSI-26_Experimental table_BASS.csv` (Microgravity solid-fuel combustion test matrix across PMMA spheres/slabs, SIBAL cotton-fiberglass blends, and Nomex fabrics).
   
   
 
