@@ -62,6 +62,11 @@ selected_geometries = st.sidebar.multiselect(
   options=sorted(df["Geometry"].unique()),
   default=sorted(df["Geometry"].unique())
 )
+
+st.sidebar.markdown("---")
+st.sidebar.header("🧪 Cabin Environment Simulator")
+cabin-02 = st.sidebar.slider("Cabin Oxygen Concentration (%)", min_value=15, max_value=100, value=21)
+cabin_airflow = st.sidebar.slider("Ventilation Airflow Velocity (cm/s)", min_value=0, max_value=50, value=15)
   ]
 
       
