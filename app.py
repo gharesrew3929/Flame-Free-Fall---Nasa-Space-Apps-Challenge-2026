@@ -155,6 +155,19 @@ with tab2:
     mat_risk += 12
   id "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
     mat_risk += 8
+
+  risk_score = min(int(o2_factor + flow_factor + mat_risk), 100)
+
+  r1, r2 = st.columns([1,2])
+  with r1:
+    st.metric("Calculated 0g Fire Risk Index", f"{risk_score} / 100")
+    if risk_score >= 70:
+      st.error("CRITICAL RISK; High-oxygen / optimal 0g convective flame spread regime.")
+    elif risk_score >= 40:
+      st.warning("MODERATE RISK: Active ventilation sustains boundary-layer combustion in microgravity.")
+    else:
+      st.success("LOW / SUPPRESSION REGIME: Near limiting oxygen concentration {LOC) for solid fuels.")
+      
   
   
 
