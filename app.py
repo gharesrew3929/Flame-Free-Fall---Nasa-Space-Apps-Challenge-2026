@@ -140,6 +140,21 @@ with tab2:
     "Combines **ISS BASS microgravity material testing patterns** with simulated spacecraft cabin parameters "
     "and historical NASA fire incident lessons (**Apollo 1** & **Space Station Mir 1997**)."
   )
+
+  o2_factor = min(max((cabin_o2 - 16) * 1.4, 0), 65)
+
+  if cabin_airflow == 0:
+    flow_factor = 10
+  elif 2 <= cabin_airflow <= 25:
+    flow_factor = 25
+  else:
+    flow_factor = 12
+
+  mat_risk = 10
+  if "PMMA (Acrylic Polymer)" in selected_materials:
+    mat_risk += 12
+  id "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
+    mat_risk += 8
   
   
 
