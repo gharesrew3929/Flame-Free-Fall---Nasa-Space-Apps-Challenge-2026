@@ -44,6 +44,18 @@ def load_data():
 
 df = load_data()
 
-  
+st.title("AstroFlame AI: Microgravity Combustio & Spacecraft Fire Safety")
+st.markdown(
+  "**NASA Space Apps Challenge 2026 - Flame in Freefall** | "
+  "Powered by **NASA Physical Sciences Informatics (PSI-26: BASS ISS Investigation)**"
+)
+
+st.sidebar.header("🛸Spacecraft Cabin & Test Filters")
+selected_materials = st.sidebar.multiselect{
+  "Filter Fuel Material Category",
+  options=sorted(df["Material_Category"].unique()),
+  default=sorted(df["Material_Category"].unique())
+)
+
       
 
