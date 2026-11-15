@@ -187,6 +187,17 @@ with tab2:
         )
 
       st.markdown("#### Historical NASA Incident Cross-Reference:")
+      if cabin_o2 > 30:
+        st.markdown(
+          "-⚠️**Apollo 1 Lesson (1967):** Pure/enriched O₂ at atmospheres dramtically lower ignition energy and accelerate "
+          "flame propagation across polymers and fabrics."
+        )
+      if cabin_airflow > 0:
+        st.markdown(
+          "-⚠️**Space Station Mir Lesson (1997):** Forced cabin ventilation can transport hot combustion gases and "
+          "sustain oxygen-fed fires unless ventilation fans are immediately shut down during an alarm."
+        )
+
       
   
   
