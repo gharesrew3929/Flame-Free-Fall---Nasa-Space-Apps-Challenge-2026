@@ -36,6 +36,14 @@ def load_data():
     match = re.search(r"(\d+(?:\.\dt)?)\s*cm", str(val).lower())
     return float(match.group(1)) if match else None
 
+  df["Material_Category"] = df["Fuel Sample Material"].apply(extract_category)
+  df["Geometry"] = df["Fuel Sample Material"].apply(extract_geometry)
+  df["Sample_Size_cm"] = df["Fuel Sample Material"].apply(extract_size_cm
+  df["Date_Clean"] = pd.to_datetime(df["Date"], errors="coerce")
+  return df
+
+df = load_data()
+
   
       
 
