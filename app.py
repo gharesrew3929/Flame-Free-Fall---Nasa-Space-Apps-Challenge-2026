@@ -57,5 +57,12 @@ selected_materials = st.sidebar.multiselect{
   default=sorted(df["Material_Category"].unique())
 )
 
+selected_geometries = st.sidebar.multiselect(
+  "Filter Sample Geometry",
+  options=sorted(df["Geometry"].unique()),
+  default=sorted(df["Geometry"].unique())
+)
+  ]
+
       
 
