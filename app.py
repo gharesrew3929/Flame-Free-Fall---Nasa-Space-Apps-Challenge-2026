@@ -131,6 +131,18 @@ with tab1:
   )
   st.plotly_chart(fig3, use_container_width=True)
 
+  with st.expander("📄 View Raw Filtered NASA PSI-26 Dataset"):
+    st.dataframe(filtered_df, use_container_width=True)
+
+with tab2:
+  st.subheader("🤖 Automated Spacecraft Fire-Safety Risk Synthesis")
+  st.write(
+    "Combines **ISS BASS microgravity material testing patterns** with simulated spacecraft cabin parameters "
+    "and historical NASA fire incident lessons (**Apollo 1** & **Space Station Mir 1997**)."
+  )
+  
+  
+
 
     
 
