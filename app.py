@@ -23,3 +23,19 @@ def load_data():
     elif "NOMEX" in s:
       return "Nomex Blend (Flame-Resistant)"
     return "Other Solid Fuel"
+
+  def extract_geometry(val):
+    s = str(val).lower()
+    if "sphere" in s:
+      return "Sphere"
+    elif "rod" in s:
+      return "Rod"
+    return "Slab / Fabric Sheet"
+
+  def extract_size_cm(val):
+    match = re.search(r"(\d+(?:\.\dt)?)\s*cm", str(val).lower())
+    return float(match.group(1)) if match else None
+
+  
+      
+
