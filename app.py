@@ -80,6 +80,22 @@ col3.metric("Distinct Sample Batches", filtered_df["Sample #"].nunique())
 avg_size = filtered_df["Sample_Size_cm"].mean()
 col4.metric("Avg Characteristic Size", f"{avg_size:.2f} cm" if pd.notna(avg_size) else "N/A")
 
+st.markdown("---")
+
+tab1, tab2, tab3 = st.tabs([
+  "📊ISS BASS Combustion Explorer",
+  "🤖 AI Spacecraft Fire-Safety Advisor",
+  "🔬 Scientific Methodology & NASA Citations"
+])
+
+with tab1: 
+  c1, c2 = st.columns(2)
+
+  with c1:
+    st.subheader("Microgravity Tests by Fuel Configuration")
+    mat_counts = filtered_df["Fuel Sample Material"].value_counts().reset_index()
+    
+
 
 
       
