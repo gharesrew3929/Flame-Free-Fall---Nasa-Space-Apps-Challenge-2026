@@ -127,7 +127,7 @@ with tab1:
         fig1.update_layout(yaxis={'categoryorder': 'total ascending'}, height=400)
         st.plotly_chart(fig1, use_container_width=True)
     
-      with c2:
+    with c2:
         st.subheader("Material Class & Geometry Breakdown")
         sunburst_df = filtered_df.groupby(["Material_Category", "Geometry"]).size().reset_index(name="Count")
         fig2 = px.sunburst(
