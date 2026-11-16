@@ -109,8 +109,8 @@ tab1, tab2, tab3 = st.tabs([
     "🔬 Scientific Methodology & NASA Citations"
 ])
     
-    with tab1: 
-      c1, c2 = st.columns(2)
+with tab1: 
+    c1, c2 = st.columns(2)
     
       with c1:
         st.subheader("Microgravity Tests by Fuel Configuration")
