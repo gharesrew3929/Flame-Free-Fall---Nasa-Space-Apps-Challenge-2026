@@ -170,20 +170,28 @@ with tab2:
     )
 
     # Identify relevant columns
-   fuel_col = next(
-    (
-        c for c in planned_df.columns
-        if "fuel" in c.lower() and "descrip" in c.lower()
-    ),
-    None
-)
+    fuel_col = next(
+        (
+            c for c in planned_df.columns
+            if "fuel" in c.lower() and "descrip" in c.lower()
+        ),
+        None
+    )
 
-if fuel_col is None:
-    st.error("Could not find the fuel description column.")
-    st.write("Columns detected in the planned test matrix:")
-    st.write(planned_df.columns.tolist())
-    st.stop()
+    if fuel_col is None:
+        st.error("Could not find the fuel description column.")
+        st.write("Columns detected in the planned test matrix:")
+        st.write(planned_df.columns.tolist())
+        st.stop()
 
+    test_col = "Test Point"
+    sample_col = "Sample Number"
+
+    if test_col not in planned_df.columns or sample_col not in planned_df.columns:
+        st.error("The planned test matrix is missing an expected column.")
+        st.write(planned_df.columns.tolist())
+        st.stop()
+        
 test_col = "Test Point"
 sample_col = "Sample Number"
 
