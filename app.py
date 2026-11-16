@@ -209,36 +209,29 @@ with tab2:
     fuel_col = next(
         (
             c for c in planned_df.columns
-            if "fuel" in c.lower() and "descrip" in c.lower()
+            if "fuel" in str(c).lower() and "descrip" in str(c).lower()
         ),
         None
     )
 
-    if fuel_col is None:
-        st.error("Could not find the fuel description column.")
+    test_col = next(
+        (c for c in planned_df.columns if str(c).strip().lower() == "test point"),
+        None
+    )
+
+    sample_col = next(
+        (c for c in planned_df.columns if str(c).strip().lower() == "sample number"),
+        None
+    )
+
+    # Check that all required columns exist
+    if fuel_col is None or test_col is None or sample_col is None:
+        st.error("One or more required columns could not be found.")
         st.write("Columns detected in the planned test matrix:")
         st.write(planned_df.columns.tolist())
         st.stop()
 
-    test_col = "Test Point"
-    sample_col = "Sample Number"
-
-    if test_col not in planned_df.columns or sample_col not in planned_df.columns:
-        st.error("The planned test matrix is missing an expected column.")
-        st.write(planned_df.columns.tolist())
-        st.stop()
-        
-test_col = "Test Point"
-sample_col = "Sample Number"
-
-if test_col not in planned_df.columns or sample_col not in planned_df.columns:
-    st.error("The planned test matrix is missing an expected column.")
-    st.write(planned_df.columns.tolist())
-    st.stop()
-    test_col = "Test Point"
-    sample_col = "Sample Number"
-
-    # Remove empty rows and preserve grouped material descriptions
+    # Prepare configuration data
     config_df = planned_df.copy()
 
     config_df = config_df[
@@ -261,6 +254,10 @@ if test_col not in planned_df.columns or sample_col not in planned_df.columns:
     materials = sorted(
         config_df[fuel_col].dropna().unique()
     )
+
+    if not materials:
+        st.warning("No fuel materials were found in the planned test matrix.")
+        st.stop()
 
     selected_fuel = st.selectbox(
         "Select a fuel material",
@@ -306,6 +303,11 @@ if test_col not in planned_df.columns or sample_col not in planned_df.columns:
     )
 
     st.bar_chart(material_counts)
+
+    st.caption(
+        "Counts represent listed test points in the planned matrix, "
+        "not completed experiments or successful combustion tests."
+    )
 
     st.caption(
         "Counts represent listed test points in the planned matrix, "
