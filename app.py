@@ -206,7 +206,16 @@ with tab3:
   * **Investigation:** **PSI-26 -- Burning and Suppression of Solids (BASS)** conducted aboard the International Space Station (ISS).
   * **Dataset File:** 'PSI-26_Experimental table_BASS.csv` (Microgravity solid-fuel combustion test matrix across PMMA spheres/slabs, SIBAL cotton-fiberglass blends, and Nomex fabrics).
   
-  
+  ### 2. Why Microgravity Combustion Differs from Earth (1g)
+  * On Eath, hot combustion gases rise due to **buoyancy**, drawing fresh oxygen into the base of a flame.
+  * In microgravity (**0g**), buoyancy disappears. Flames become spherical, cooler, and governed entirely by **molecular diffusion** and **forced spacecraft ventilation**
+  * Surprisingly, NASA's BASS experiments demonstrated that certain solid materials burn at **lower oxygen concentrations in microgravity** under gentle airflow than the they do on Earth.
+
+  ### 3. Additional NASA Reference Sources
+  * *A Researcher's Guide to International Space Station Combustion Science* (NASA ISS Program Science Office)
+  * *Apollo 1 & Apollo 13 Historical Investigation Archives* (NASA)
+  * *25 Years Ago: Fire Aboard Space Station Mir* (NASA History)
+  """)
 
 
     
