@@ -309,11 +309,6 @@ with tab2:
         "not completed experiments or successful combustion tests."
     )
 
-    st.caption(
-        "Counts represent listed test points in the planned matrix, "
-        "not completed experiments or successful combustion tests."
-    )
-
 with tab3:
     st.subheader("🔬 Scientific Methodology & NASA Data Attribution")
 
