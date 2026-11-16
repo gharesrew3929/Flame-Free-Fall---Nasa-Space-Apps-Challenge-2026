@@ -139,7 +139,7 @@ with tab1:
         fig2.update_layout(height=400)
         st.plotly_chart(fig2, use_container_width=True)
     
-      st.subheader("ISS Experiment TImeline (Test Sequence vs. GMT Day)")
+    st.subheader("ISS Experiment TImeline (Test Sequence vs. GMT Day)")
       timeline_df = filtered_df.dropna(subset=["GMT", "As Run Test #"])
       fig3 = px.scatter(
         timeline_df,
