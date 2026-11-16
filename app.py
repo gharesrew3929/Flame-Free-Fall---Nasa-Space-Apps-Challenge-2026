@@ -65,7 +65,7 @@ def load_data():
 df, planned_df = load_data()
 
   
-    st.title("AstroFlame AI: Microgravity Combustio & Spacecraft Fire Safety")
+st.title("AstroFlame AI: Microgravity Combustio & Spacecraft Fire Safety")
     st.markdown(
       "**NASA Space Apps Challenge 2026 - Flame in Freefall** | "
       "Powered by **NASA Physical Sciences Informatics (PSI-26: BASS ISS Investigation)**"
