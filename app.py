@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import pe
-
+import re
 st.set_page_config(
   page_title="AstrFlame AI | Microgravity Fire Safety Insights",
   page_icon="🔥",
@@ -26,19 +25,25 @@ def load_data():
 
   def extract_geometry(val):
     s = str(val).lower()
-    if "sphere" in s:
-      return "Sphere"
+    
+     if "sphere" in s:
+        return "Sphere"
     elif "rod" in s:
-      return "Rod"
-    return "Slab / Fabric Sheet"
+        return "Rod"
+    elif "slab" in s:
+        return "Slab"
+    elif "fabric" in s or "sheet" in s:
+        return "Fabric / Sheet"
+    else:
+        return "Unspecified / Other"
 
   def extract_size_cm(val):
-    match = re.search(r"(\d+(?:\.\dt)?)\s*cm", str(val).lower())
+    match = re.search(r"(\d+(?:\.\d+)?)\s*cm", str(val).lower())
     return float(match.group(1)) if match else None
 
   df["Material_Category"] = df["Fuel Sample Material"].apply(extract_category)
   df["Geometry"] = df["Fuel Sample Material"].apply(extract_geometry)
-  df["Sample_Size_cm"] = df["Fuel Sample Material"].apply(extract_size_cm
+  df["Sample_Size_cm"] = df["Fuel Sample Material"].apply(extract_size_cm)
   df["Date_Clean"] = pd.to_datetime(df["Date"], errors="coerce")
   return df
 
@@ -51,7 +56,7 @@ st.markdown(
 )
 
 st.sidebar.header("🛸Spacecraft Cabin & Test Filters")
-selected_materials = st.sidebar.multiselect{
+selected_materials = st.sidebar.multiselect(
   "Filter Fuel Material Category",
   options=sorted(df["Material_Category"].unique()),
   default=sorted(df["Material_Category"].unique())
@@ -65,11 +70,11 @@ selected_geometries = st.sidebar.multiselect(
 
 st.sidebar.markdown("---")
 st.sidebar.header("🧪 Cabin Environment Simulator")
-cabin-02 = st.sidebar.slider("Cabin Oxygen Concentration (%)", min_value=15, max_value=100, value=21)
+cabin_o2 = st.sidebar.slider("Cabin Oxygen Concentration (%)", min_value=15, max_value=100, value=21)
 cabin_airflow = st.sidebar.slider("Ventilation Airflow Velocity (cm/s)", min_value=0, max_value=50, value=15)
 
 filtered_df = df[
-  (df["Matersial_Category"].isin(selected_materials)) &
+  (df["Material_Category"].isin(selected_materials)) &
   (df["Geometry"].isin(selected_geometries))
 ]
 
@@ -98,7 +103,7 @@ with tab1:
     fig1 = px.bar(
       mat_counts,
       x="Test Count",
-      y="Fuel Sample Material".
+      y="Fuel Sample Material",
       orientation="h",
       color="Test Count",
       color_continuous_scale="Y1OrRd"
@@ -121,7 +126,7 @@ with tab1:
   st.subheader("ISS Experiment TImeline (Test Sequence vs. GMT Day)")
   timeline_df = filtered_df.dropna(subset=["GMT", "As Run Test #"])
   fig3 = px.scatter(
-    timelinw_df,
+    timeline_df,
     x="GMT",
     y="As Run Test #",
     color="Material_Category",
@@ -153,7 +158,7 @@ with tab2:
   mat_risk = 10
   if "PMMA (Acrylic Polymer)" in selected_materials:
     mat_risk += 12
-  id "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
+  if "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
     mat_risk += 8
 
   risk_score = min(int(o2_factor + flow_factor + mat_risk), 100)
@@ -180,11 +185,11 @@ with tab2:
         "-**SIBAL (Solid Inflammability Boundary at Low-Speed):** Thin cellulosic/fiberglass fabrics ignite rapidbly "
         "even at low ventilation speeds  (5-15 cm/s) where buoyancy-driven airflow is absent."
       )
-      if "Nomex Blend (Flam-Resistant)" in selected_mateirals:
-        st.markdown(
-          "-**Nomex Blends:** Used in astronaut flight suits and stowage bags; remains self-extinguishing at standard "
-          "21% O₂ but requires strict oxygen-enrichment limits."
-        )
+    if "Nomex Blend (Flam-Resistant)" in selected_materials:
+      st.markdown(
+        "-**Nomex Blends:** Used in astronaut flight suits and stowage bags; remains self-extinguishing at standard "
+        "21% O₂ but requires strict oxygen-enrichment limits."
+      )
 
       st.markdown("#### Historical NASA Incident Cross-Reference:")
       if cabin_o2 > 30:
