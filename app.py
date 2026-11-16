@@ -52,8 +52,34 @@ def load_data():
     df = pd.read_csv("bass_data.csv")
     df.columns = [c.strip() for c in df.columns]
 
-    planned_df = pd.read_csv("planned_test_matrix.csv", skiprows=2)
-    planned_df.columns = [c.strip() for c in planned_df.columns]
+raw_planned = pd.read_csv(
+    "planned_test_matrix.csv",
+    header=None,
+    dtype=str
+)
+
+header_row = None
+
+for i, row in raw_planned.iterrows():
+    values = [
+        str(value).strip().lower()
+        for value in row
+        if pd.notna(value)
+    ]
+
+    if any("fuel" in value and "descrip" in value for value in values):
+        header_row = i
+        break
+
+if header_row is None:
+    raise ValueError("Could not locate the actual column headings in the planned test matrix.")
+
+headers = raw_planned.iloc[header_row].fillna("").astype(str).str.strip()
+
+planned_df = raw_planned.iloc[header_row + 1:].copy()
+planned_df.columns = headers
+planned_df = planned_df.loc[:, planned_df.columns != ""]
+planned_df = planned_df.reset_index(drop=True)
 
     df["Material_Category"] = df["Fuel Sample Material"].apply(extract_category)
     df["Geometry"] = df["Fuel Sample Material"].apply(extract_geometry)
