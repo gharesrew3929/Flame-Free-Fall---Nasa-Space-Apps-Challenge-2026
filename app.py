@@ -141,7 +141,7 @@ with tab1:
     
     st.subheader("ISS Experiment TImeline (Test Sequence vs. GMT Day)")
     timeline_df = filtered_df.dropna(subset=["GMT", "As Run Test #"])
-      fig3 = px.scatter(
+    fig3 = px.scatter(
         timeline_df,
         x="GMT",
         y="As Run Test #",
