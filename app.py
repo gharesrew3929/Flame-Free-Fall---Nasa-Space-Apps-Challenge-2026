@@ -112,7 +112,7 @@ tab1, tab2, tab3 = st.tabs([
 with tab1: 
     c1, c2 = st.columns(2)
     
-      with c1:
+    with c1:
         st.subheader("Microgravity Tests by Fuel Configuration")
         mat_counts = filtered_df["Fuel Sample Material"].value_counts().reset_index()
         mat_counts.columns = ["Fuel Sample Material", "Test Count"]
