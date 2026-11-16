@@ -1,23 +1,16 @@
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import re
+
 st.set_page_config(
-  page_title="AstrFlame AI | Microgravity Fire Safety Insights",
-  page_icon="🔥",
-  layout="wide"
+    page_title="AstrFlame AI | Microgravity Fire Safety Insights",
+    page_icon="🔥",
+    layout="wide"
 )
 
-@st.cache_data
-def load_data():
-    df = pd.read_csv("bass_data.csv")
-    df.columns = [c.strip() for c in df.columns]
 
-    planned_df = pd.read_csv("planned_test_matrix.csv", skiprows=2)
-    planned_df.columns = [c.strip() for c in planned_df.columns]
-
-    return df, planned_df
-  
 def extract_category(val):
     s = str(val).upper()
 
@@ -44,16 +37,33 @@ def extract_geometry(val):
     else:
         return "Unspecified / Other"
 
+
 def extract_size_cm(val):
-    match = re.search(r"(\d+(?:\.\d+)?)\s*cm", str(val).lower())
-    return float(match.group(1)) if match else None
+    s = str(val)
+    match = re.search(r"(\d+(?:\.\d+)?)\s*cm", s, re.IGNORECASE)
+
+    if match:
+        return float(match.group(1))
+    return None
+
+
+@st.cache_data
+def load_data():
+    df = pd.read_csv("bass_data.csv")
+    df.columns = [c.strip() for c in df.columns]
+
+    planned_df = pd.read_csv("planned_test_matrix.csv", skiprows=2)
+    planned_df.columns = [c.strip() for c in planned_df.columns]
 
     df["Material_Category"] = df["Fuel Sample Material"].apply(extract_category)
     df["Geometry"] = df["Fuel Sample Material"].apply(extract_geometry)
     df["Sample_Size_cm"] = df["Fuel Sample Material"].apply(extract_size_cm)
     df["Date_Clean"] = pd.to_datetime(df["Date"], errors="coerce")
+
     return df, planned_df
-    df, planned_df = load_data()
+  
+df, planned_df = load_data()
+
   
     st.title("AstroFlame AI: Microgravity Combustio & Spacecraft Fire Safety")
     st.markdown(
