@@ -13,7 +13,7 @@ def load_data():
     df = pd.read_csv("bass_data.csv")
     df.columns = [c.strip() for c in df.columns]
 
-    planned_df = pd.read_csv("planned_test_matrix.csv")
+    planned_df = pd.read_csv("planned_test_matrix.csv", skiprows=2)
     planned_df.columns = [c.strip() for c in planned_df.columns]
 
     return df, planned_df
@@ -144,68 +144,101 @@ with tab1:
     st.dataframe(filtered_df, use_container_width=True)
 
 with tab2:
-  st.subheader("🤖 Automated Spacecraft Fire-Safety Risk Synthesis")
-  st.write(
-    "Combines **ISS BASS microgravity material testing patterns** with simulated spacecraft cabin parameters "
-    "and historical NASA fire incident lessons (**Apollo 1** & **Space Station Mir 1997**)."
-  )
+    st.subheader("🔬 BASS Configuration Explorer")
 
-  o2_factor = min(max((cabin_o2 - 16) * 1.4, 0), 65)
+    st.write(
+        "Explore planned NASA BASS experimental configurations, "
+        "including fuel materials, sample geometry, ignition settings, "
+        "and experimental setup parameters."
+    )
 
-  if cabin_airflow == 0:
-    flow_factor = 10
-  elif 2 <= cabin_airflow <= 25:
-    flow_factor = 25
-  else:
-    flow_factor = 12
+    st.info(
+        "This dataset describes planned experimental configurations. "
+        "It does not report measured flame behavior or fire-safety outcomes."
+    )
 
-  mat_risk = 10
-  if "PMMA (Acrylic Polymer)" in selected_materials:
-    mat_risk += 12
-  if "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
-    mat_risk += 8
+    # Identify relevant columns
+    fuel_col = next(
+        c for c in planned_df.columns
+        if c.lower().startswith("fuel descript")
+    )
 
-  risk_score = min(int(o2_factor + flow_factor + mat_risk), 100)
+    test_col = "Test Point"
+    sample_col = "Sample Number"
 
-  r1, r2 = st.columns([1,2])
-  with r1:
-    st.metric("Calculated 0g Fire Risk Index", f"{risk_score} / 100")
-    if risk_score >= 70:
-      st.error("CRITICAL RISK; High-oxygen / optimal 0g convective flame spread regime.")
-    elif risk_score >= 40:
-      st.warning("MODERATE RISK: Active ventilation sustains boundary-layer combustion in microgravity.")
-    else:
-      st.success("LOW / SUPPRESSION REGIME: Near limiting oxygen concentration {LOC) for solid fuels.")
+    # Remove empty rows and preserve grouped material descriptions
+    config_df = planned_df.copy()
 
-  with r2:
-    st.markdown("#### Key Engineering Takeaways for Selected Materials:")
-    if "PMMA (Acrylic Polymer)" in selected_materials:
-      st.markdown(
-        "-**PMMA (1 cm & 2 cm spheres/slabs):** Thick polymers exhibit slow thermal equilibration in microgravity; "
-        "larger diameters (2 cm) act as sustained heat sinks that require prolonged suppressant application."
-      )
-    if "SIBAL (Cotton/Fiberglass Blend)" in selected_materials:
-      st.markdown(
-        "-**SIBAL (Solid Inflammability Boundary at Low-Speed):** Thin cellulosic/fiberglass fabrics ignite rapidbly "
-        "even at low ventilation speeds  (5-15 cm/s) where buoyancy-driven airflow is absent."
-      )
-    if "Nomex Blend (Flam-Resistant)" in selected_materials:
-      st.markdown(
-        "-**Nomex Blends:** Used in astronaut flight suits and stowage bags; remains self-extinguishing at standard "
-        "21% O₂ but requires strict oxygen-enrichment limits."
-      )
+    config_df = config_df[
+        config_df[test_col].notna()
+    ].copy()
 
-      st.markdown("#### Historical NASA Incident Cross-Reference:")
-      if cabin_o2 > 30:
-        st.markdown(
-          "-⚠️**Apollo 1 Lesson (1967):** Pure/enriched O₂ at atmospheres dramtically lower ignition energy and accelerate "
-          "flame propagation across polymers and fabrics."
-        )
-      if cabin_airflow > 0:
-        st.markdown(
-          "-⚠️**Space Station Mir Lesson (1997):** Forced cabin ventilation can transport hot combustion gases and "
-          "sustain oxygen-fed fires unless ventilation fans are immediately shut down during an alarm."
-        )
+    config_df[fuel_col] = (
+        config_df[fuel_col]
+        .replace("", pd.NA)
+        .ffill()
+    )
+
+    config_df[sample_col] = (
+        config_df[sample_col]
+        .replace("", pd.NA)
+        .ffill()
+    )
+
+    # Material selection
+    materials = sorted(
+        config_df[fuel_col].dropna().unique()
+    )
+
+    selected_fuel = st.selectbox(
+        "Select a fuel material",
+        materials
+    )
+
+    material_data = config_df[
+        config_df[fuel_col] == selected_fuel
+    ]
+
+    # Summary metrics
+    c1, c2, c3 = st.columns(3)
+
+    c1.metric(
+        "Planned test points",
+        len(material_data)
+    )
+
+    c2.metric(
+        "Sample identifiers",
+        material_data[sample_col].nunique()
+    )
+
+    c3.metric(
+        "Fuel material",
+        selected_fuel
+    )
+
+    st.markdown("### Planned Configuration Records")
+
+    st.dataframe(
+        material_data,
+        use_container_width=True,
+        hide_index=True
+    )
+
+    st.markdown("### Material Configuration Overview")
+
+    material_counts = (
+        config_df.groupby(fuel_col)[test_col]
+        .count()
+        .sort_values(ascending=False)
+    )
+
+    st.bar_chart(material_counts)
+
+    st.caption(
+        "Counts represent listed test points in the planned matrix, "
+        "not completed experiments or successful combustion tests."
+    )
 
 with tab3:
   st.subheader("🔬 Scientific Methodology & NASA Data Attribution")
