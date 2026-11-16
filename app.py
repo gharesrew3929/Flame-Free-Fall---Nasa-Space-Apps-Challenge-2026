@@ -18,7 +18,7 @@ def load_data():
 
     return df, planned_df
   
- def extract_category(val):
+def extract_category(val):
     s = str(val).upper()
 
     if "PMMA" in s:
