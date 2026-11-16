@@ -18,20 +18,22 @@ def load_data():
 
     return df, planned_df
   
-  def extract_category(val):
+ def extract_category(val):
     s = str(val).upper()
+
     if "PMMA" in s:
-      return "PMMA (Acrylic Polymer)"
+        return "PMMA (Acrylic Polymer)"
     elif "SIBAL" in s:
-      return "SIBAL (Cotton/Fiberglass Blend)"
+        return "SIBAL (Cotton/Fiberglass Blend)"
     elif "NOMEX" in s:
-      return "Nomex Blend (Flame-Resistant)"
+        return "Nomex Blend (Flame-Resistant)"
     return "Other Solid Fuel"
 
-  def extract_geometry(val):
+
+def extract_geometry(val):
     s = str(val).lower()
-    
-     if "sphere" in s:
+
+    if "sphere" in s:
         return "Sphere"
     elif "rod" in s:
         return "Rod"
