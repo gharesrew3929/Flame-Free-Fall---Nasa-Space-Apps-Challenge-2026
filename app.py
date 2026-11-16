@@ -95,7 +95,7 @@ filtered_df = df[
 ]
     
 col1, col2, col3, col4 = st.columns(4)
-col1.metric("Total ISS Burn Tests", len(filtered_df))
+col1.metric("Total Dataset Records", len(filtered_df))
 col2.metric("Unique Fuel Configurations", filtered_df["Fuel Sample Material"].nunique())
 col3.metric("Distinct Sample Batches", filtered_df["Sample #"].nunique())
 avg_size = filtered_df["Sample_Size_cm"].mean()
