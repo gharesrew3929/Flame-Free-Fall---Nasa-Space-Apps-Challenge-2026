@@ -150,7 +150,7 @@ with tab1:
         hover_data=["Date", "Test #", "Sample #", "Fuel Sample Material"],
         title="BASS Experimental Campaign Progression on the International Space Station"
       )
-      st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig3, use_container_width=True)
     
       with st.expander("📄 View Raw Filtered NASA PSI-26 Dataset"):
         st.dataframe(filtered_df, use_container_width=True)
