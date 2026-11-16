@@ -44,7 +44,7 @@ def extract_geometry(val):
     else:
         return "Unspecified / Other"
 
-  def extract_size_cm(val):
+def extract_size_cm(val):
     match = re.search(r"(\d+(?:\.\d+)?)\s*cm", str(val).lower())
     return float(match.group(1)) if match else None
 
