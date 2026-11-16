@@ -122,7 +122,7 @@ with tab1:
           y="Fuel Sample Material",
           orientation="h",
           color="Test Count",
-          color_continuous_scale="Y1OrRd"
+          color_continuous_scale="YlOrRd"
         )
         fig1.update_layout(yaxis={'categoryorder': 'total ascending'}, height=400)
         st.plotly_chart(fig1, use_container_width=True)
