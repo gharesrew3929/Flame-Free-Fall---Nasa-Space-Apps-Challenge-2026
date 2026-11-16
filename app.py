@@ -10,9 +10,14 @@ st.set_page_config(
 
 @st.cache_data
 def load_data():
-  df = pd.read_csv("bass_data.csv")
-  df.columns = [c.strip() for c in df.columns]
+    df = pd.read_csv("bass_data.csv")
+    df.columns = [c.strip() for c in df.columns]
 
+    planned_df = pd.read_csv("planned_test_matrix.csv")
+    planned_df.columns = [c.strip() for c in planned_df.columns]
+
+    return df, planned_df
+  
   def extract_category(val):
     s = str(val).upper()
     if "PMMA" in s:
@@ -45,9 +50,8 @@ def load_data():
   df["Geometry"] = df["Fuel Sample Material"].apply(extract_geometry)
   df["Sample_Size_cm"] = df["Fuel Sample Material"].apply(extract_size_cm)
   df["Date_Clean"] = pd.to_datetime(df["Date"], errors="coerce")
-  return df
-
-df = load_data()
+  return df, planned_df
+df, planned_df = load_data()
 
 st.title("AstroFlame AI: Microgravity Combustio & Spacecraft Fire Safety")
 st.markdown(
