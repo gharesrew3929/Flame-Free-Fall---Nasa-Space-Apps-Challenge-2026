@@ -53,7 +53,7 @@ def extract_size_cm(val):
     df["Sample_Size_cm"] = df["Fuel Sample Material"].apply(extract_size_cm)
     df["Date_Clean"] = pd.to_datetime(df["Date"], errors="coerce")
     return df, planned_df
-  df, planned_df = load_data()
+    df, planned_df = load_data()
   
   st.title("AstroFlame AI: Microgravity Combustio & Spacecraft Fire Safety")
   st.markdown(
