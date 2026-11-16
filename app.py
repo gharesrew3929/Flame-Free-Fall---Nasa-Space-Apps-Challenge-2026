@@ -5,7 +5,7 @@ import plotly.express as px
 import re
 
 st.set_page_config(
-    page_title="AstrFlame AI | Microgravity Fire Safety Insights",
+    page_title="AstroFlame AI | Microgravity Fire Safety Insights",
     page_icon="🔥",
     layout="wide"
 )
